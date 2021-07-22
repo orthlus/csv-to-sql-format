@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 });
 function CSVKeyupTimeout(csv, sql) {
+    // для задержки обработки при вводе
     setTimeout(function () {
         sql.value = CSVToSQL(csv)
     }, 700);
 }
 function CSVToSQL(CSV) {
-    CSV.disabled = true
     const csvTextArray = CSV.value.replaceAll('\r\n','\n').split('\n')
     let header = csvTextArray.shift()
     if (header.includes(',')){
