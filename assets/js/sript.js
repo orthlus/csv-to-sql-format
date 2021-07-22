@@ -23,20 +23,9 @@ function CSVToSQL(CSV) {
     if (header.includes(',')){
         throw 'not valid CSV (can be just one column)'
     }
-    let listElementsString = ''
-    csvTextArray.forEach(function (row) {
-        if (row.includes(',')){
-            throw 'not valid CSV (can be just one column)'
-        }
-        if (row === ''){
-            /* skip iteration forEach */
-            return true
-        }
-        listElementsString += row
-        listElementsString += ', '
-    })
-    listElementsString = listElementsString.slice(0, listElementsString.length - 2)
-    listElementsString = ' in (' + listElementsString + ')'
+    // filter(Boolean) для фильтрации пустых строк
+    let listElementsString = csvTextArray.filter(Boolean).join(', ')
+    listElementsString = ` in (${listElementsString})`
     console.log(header + listElementsString)
     return header + listElementsString
 }
