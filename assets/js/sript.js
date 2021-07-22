@@ -25,7 +25,10 @@ function CSVToSQL(CSV) {
     }
     // filter(Boolean) для фильтрации пустых строк
     let listElementsString = csvTextArray.filter(Boolean).join(', ')
+    if (header === '')
+        return ''
+    if (listElementsString === '')
+        return ''
     listElementsString = ` in (${listElementsString})`
-    console.log(header + listElementsString)
     return header + listElementsString
 }
