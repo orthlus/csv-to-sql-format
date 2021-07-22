@@ -21,6 +21,10 @@ function CSVToSQL(CSV) {
     let csvTextArray = CSV.value.replaceAll('\r\n','\n').split('\n')
 
     let header = csvTextArray.shift()
+    if (header === '')
+        return ''
+    if (csvTextArray.length === 0)
+        return ''
 
     // уникальные элементы
     csvTextArray = [...new Set(csvTextArray)]
@@ -33,10 +37,6 @@ function CSVToSQL(CSV) {
         listElementsString = listElementsString.replaceAll(',',', ')
     }
 
-    if (header === '')
-        return ''
-    if (listElementsString === '')
-        return ''
     listElementsString = ` in (${listElementsString})`
     return header + listElementsString
 }
