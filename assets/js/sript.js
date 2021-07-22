@@ -1,12 +1,12 @@
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
 
     const csv = document.getElementById('csv')
     const sql = document.getElementById('sql')
 
-    csv.addEventListener("keyup", function (event) {
+    csv.addEventListener("keyup", function () {
         CSVKeyupTimeout(csv, sql)
     })
-    sql.addEventListener("click", function (event) {
+    sql.addEventListener("click", function () {
         sql.select()
         document.execCommand("copy");
     })
