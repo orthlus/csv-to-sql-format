@@ -18,13 +18,21 @@ function CSVKeyupTimeout(csv, sql) {
     }, 700);
 }
 function CSVToSQL(CSV) {
-    const csvTextArray = CSV.value.replaceAll('\r\n','\n').split('\n')
+    let csvTextArray = CSV.value.replaceAll('\r\n','\n').split('\n')
+
     let header = csvTextArray.shift()
-    if (header.includes(',')){
-        throw 'not valid CSV (can be just one column)'
-    }
+
+    // уникальные элементы
+    csvTextArray = [...new Set(csvTextArray)]
+
     // filter(Boolean) для фильтрации пустых строк
     let listElementsString = csvTextArray.filter(Boolean).join(', ')
+
+    if (header.includes(',')){
+        header = header.split(',')[0]
+        listElementsString = listElementsString.replaceAll(',',', ')
+    }
+
     if (header === '')
         return ''
     if (listElementsString === '')
