@@ -26,6 +26,10 @@ function CSVToSQL(CSV) {
     if (csvTextArray.length === 0)
         return ''
 
+    if (header.includes(',')){
+        header = header.split(',')[0]
+    }
+
     // filter(Boolean) для фильтрации пустых строк
     csvTextArray = csvTextArray.filter(Boolean)
     // уникальные элементы
@@ -33,29 +37,24 @@ function CSVToSQL(CSV) {
 
     // если массив не числовой, то обернуть все значения в кавычки
     let isArrayNumerics = true
+    let oneDimensionalListValues = []
     csvTextArray.forEach(function (item) {
         item.split(',').forEach(function (innerItem) {
+            if (innerItem === '') return
             if (!isNumeric(innerItem)){
                 isArrayNumerics = false
             }
+            oneDimensionalListValues.push(innerItem)
         })
     })
     if (!isArrayNumerics){
-        for (let i = 0; i < csvTextArray.length; i++) {
-            let innerItem = csvTextArray[i].split(',')
-            for (let j = 0; j < innerItem.length; j++) {
-                innerItem[j] = `'${innerItem[j]}'`
-            }
-            csvTextArray[i] = innerItem
+        for (let i = 0; i < oneDimensionalListValues.length; i++){
+            oneDimensionalListValues[i] = `'${oneDimensionalListValues[i]}'`
         }
     }
 
-    let listElementsString = csvTextArray.join(', ')
-
-    if (header.includes(',')){
-        header = header.split(',')[0]
-        listElementsString = listElementsString.replaceAll(',',', ')
-    }
+    let listElementsString = oneDimensionalListValues.join(', ')
+    console.log(listElementsString)
 
     listElementsString = ` in (${listElementsString})`
     return header + listElementsString
